@@ -46,8 +46,7 @@
 								class="fa fa-angle-right pull-right"></i></span></a>
 					<ul class="treeview-menu">
 							<li><a href="selectAllHotel.do">전체 지점 조회</a></li>
-							<li><a href="pages/reports/top-gainers-losers.html">Top
-									Gainers/Losers</a></li>
+							<li><a href="insertHotelView.do">호텔 지점 등록</a></li>
 							<li><a href="pages/reports/market-capitalizations.html">Market
 									Capitalizations</a></li>
 							<li><a href="pages/reports/crypto-stats.html">Crypto

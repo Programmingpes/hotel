@@ -29,6 +29,7 @@
 <!--[if lt IE 9]><script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
 <style type="text/css">
 	.test {
 		border-left: 3px solid green;
@@ -103,6 +104,7 @@
 	<script src="../admin_resource/js/pages/dashboard-chart.js"></script>
 	<!-- Crypto_Admin for demo purposes -->
 	<script src="../admin_resource/js/demo.js"></script>
+	
 	<script type="text/javascript">
 	$(function(){
 		var title = '${title }';
@@ -121,14 +123,96 @@
 			$("a[href^='selectAllHotel.do']").parent().parent().parent().addClass("active");
 		}
 		
-		else if(title == "호텔 지점 추가"){
-			$("a[href^='selectAllHotel.do']").parent().addClass("active");
-			$("a[href^='selectAllHotel.do']").parent().parent().parent().addClass("active");
+		else if(title == "호텔 지점 등록"){
+			$("a[href^='insertHotelView.do']").parent().addClass("active");
+			$("a[href^='insertHotelView.do']").parent().parent().parent().addClass("active");
 		}
 		
 		
+		$("input[type='tel']").keyup(function(){
+			$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+		});
+		
+	
 		
 	});
+	
+	function execPostCode() {
+		new daum.Postcode({
+            oncomplete: function(data) {
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+
+                document.getElementById('addr1').value = data.zonecode;
+                document.getElementById("addr2").value = roadAddr;
+                document.getElementById("addr3").value = data.jibunAddress;
+
+                var guideTextBox = document.getElementById("guide");
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+		
+	}
+	function insertHotel() {
+		var hotelNo = $("input[name=hotelNo]").val();
+		var hotelName = $("input[name=hotelName]").val();
+		var hotelTel = ($("input[name=hotelTel]").val()).replaceAll("-", "");
+		var hotelAddress = $("input[name=addr1]").val() + ", " + $("input[name=addr2]").val() + ", " + $("input[name=addr3]").val();;
+		var hotelImage = $("input[name=hotelImage]").val();
+		var hotelManual = $("input[name=hotelManual]").val();
+		var hotelAllRoomEA = $("input[name=hotelAllRoomEA]").val();
+		
+		
+		console.log(hotelImage);
+		if(hotelNo.length == 0 || hotelName.length == 0 || hotelTel.length == 0
+			|| hotelAddress.length == 0 || hotelImage.length == 0 || hotelAddress.length == 0
+			|| hotelManual.length == 0 || hotelAllRoomEA.length == 0){
+			alert("모든 데이터를 입력 후 등록하세요");
+			return;
+		}
+		
+		var data = "hotelNo=" + hotelNo;
+		data += "&hotelName=" + hotelName;
+		data += "&hotelTel=" + hotelTel;
+		data += "&hotelAddress=" + hotelAddress;
+		data += "&hotelImage=" + hotelImage;
+		data += "&hotelManual=" + hotelManual;
+		data += "&hotelAllRoomEA=" + hotelAllRoomEA;
+		
+		console.log(data);
+		
+		$.ajax({
+			url:"insertHotel.do",
+			type:"get",
+			data : data,
+			contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
+			success:function(r){
+				if(r==1)
+					alert("호델 데이터 등록 완료");
+				location.reload();
+			}
+		});
+			
+	}
 </script>
 	
 	
