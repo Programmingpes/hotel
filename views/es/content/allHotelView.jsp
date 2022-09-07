@@ -43,7 +43,8 @@
 											<th class="text-center">Tel</th>
 											<th class="text-center">Address</th>
 											<th class="text-center">Main Image</th>
-											<th class="text-center">Manual</th>
+											<th class="text-center">Simple Manual</th>
+											<th class="text-center">Detail Manual</th>
 											<th class="text-center">All Room EA</th>
 											<th class="text-center"></th>
 										</tr>
@@ -58,10 +59,11 @@
 												<td class="text-center">${h.hotelTel}</td>
 												<td class="text-center">${h.hotelAddress}</td>
 												<td class="text-center"><img class="hotel_image" src="${h.hotelImage}" alt="호텔 메인 이미지"></td>
-												<td class="text-center">${h.hotelManual}</td>
-												<td class="text-center">${h.hotelAllRoomEA}</td>
+												<td class="text-center">${h.hotelSimpleManual}</td>
+												<td class="text-center">${h.hotelDetailManual}</td>
+												<td class="text-center">0</td>
 												<td class="text-center">
-													<a href="hotelUpdate.do?hotelNo=${h.hotelNo }"
+													<a href="hotelUpdateView.do?hotelNo=${h.hotelNo }"
 													class="text-yellow hover-warning">수정하기</a></td>
 											</tr>
 										</c:forEach>

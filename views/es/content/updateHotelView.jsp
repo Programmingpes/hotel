@@ -12,11 +12,11 @@
 
 </head>
 <body>
-	<div class="wrapper"></div>
+	<div class="wrapper">
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>호텔 지점 등록</h1>
+				<h1>호텔 정보 수정</h1>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="admin.do"><i
 							class="fa fa-dashboard"></i>Main</a></li>
@@ -26,7 +26,6 @@
 			</section>
 			<!-- Main content -->
 			<section class="content">
-			<form action="insertHotel.do" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<!-- /.col -->
 					<div class="col-xl-8 col-lg-7">
@@ -41,61 +40,65 @@
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Hotel No</label>
 											<div class="col-sm-6">
-												<input class="form-control" type="text" placeholder="호텔 코드 넘버 입력" name="hotelNo">
+												<input class="form-control" type="text" placeholder="호텔 코드 넘버 입력" name="hotelNo"
+												value="${requestScope.dto.hotelNo }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Name</label>
 											<div class="col-sm-6">
-												<input class="form-control" type="text" placeholder="호텔명 입력" name="hotelName">
+												<input class="form-control" type="text" placeholder="호텔명 입력" name="hotelName"
+												value="${requestScope.dto.hotelName }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Tel</label>
 											<div class="col-sm-6">
 												<input class="form-control phoneNumber" type="tel"
-													placeholder="호텔 전화 번호 입력(- 제외 입력)" maxlength="13" name="hotelTel">
+													placeholder="호텔 전화 번호 입력(- 제외 입력)" maxlength="13" name="hotelTel"
+													value="${requestScope.dto.hotelTel }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Address</label>
 											<div class="col-sm-10">
-												<input class="form-control" style="width: 40%; display: inline;" placeholder="우편번호" name="addr1" id="addr1" type="text" readonly="readonly" >
+												<input class="form-control" style="width: 40%; display: inline;" placeholder="우편번호" name="addr1" id="addr1" type="text" readonly="readonly"
+												value="${requestScope.address[0] }">
     											<button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
     											<span id="guide" style="color:#999;display:none;"></span>            
-    											<input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="addr2" id="addr2" type="text" readonly="readonly" />
+    											<input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="addr2" id="addr2" type="text" readonly="readonly" 
+    											value="${requestScope.address[1] }">
 												<input class="form-control" type="text" name="addr3" id="addr3"
-													placeholder="호텔 상세 주소 입력">
+													placeholder="호텔 상세 주소 입력" value="${requestScope.address[2] }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Main Image</label>
 											<div class="col-sm-10">
 												<input class="form-control" type="file"
-													placeholder="호텔 메인 이미지 등록" accept="image/*" name="file">
-												<input class="form-control" type="hidden" name="hotelImage"
-												value="../admin_resource/images/">
+													placeholder="호텔 메인 이미지 등록" accept="image/*" name="hotelImage">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Simple Manual</label>
 											<div class="col-sm-10">
 												<input class="form-control" type="text"
-													placeholder="호텔 간단 소개 입력" name="hotelSimpleManual">
+													placeholder="호텔 간단 소개 입력" name="hotelSimpleManual"
+													value="${requestScope.dto.hotelSimpleManual }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label">Detail Manual</label>
 											<div class="col-sm-10">
 												<input class="form-control" type="text"
-													placeholder="호텔 상세 소개 입력" name="hotelDetailManual">
+													placeholder="호텔 상세 소개 입력" name="hotelDetailManual"
+													value="${requestScope.dto.hotelDetailManual }">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-2 col-form-label"></label>
 											<div class="col-sm-10">
-												<button type="button" class="btn btn-warning btn-lg mx-auto" onclick="testInsert();">더미 데이터 테스트</button>
-												<button type="submit" class="btn btn-warning btn-lg mx-auto">등록하기</button>
+												<button type="button" class="btn btn-warning btn-lg mx-auto" onclick="updateHotel();">수정하기</button>
 											</div>
 										</div>
 									</div>
@@ -110,7 +113,6 @@
 					<!-- /.col -->
 				</div>
 				<!-- /.row -->
-				</form>
 			</section>
 			<!-- /.content -->
 		</div>

@@ -104,7 +104,6 @@
 	<script src="../admin_resource/js/pages/dashboard-chart.js"></script>
 	<!-- Crypto_Admin for demo purposes -->
 	<script src="../admin_resource/js/demo.js"></script>
-	
 	<script type="text/javascript">
 	$(function(){
 		var title = '${title }';
@@ -118,7 +117,7 @@
 			$("a[href^='admin.do']").parent().addClass("active");
 		}
 		
-		else if(title == "전체 지점 조회"){
+		else if(title == "전체 지점 관리"){
 			$("a[href^='selectAllHotel.do']").parent().addClass("active");
 			$("a[href^='selectAllHotel.do']").parent().parent().parent().addClass("active");
 		}
@@ -128,6 +127,8 @@
 			$("a[href^='insertHotelView.do']").parent().parent().parent().addClass("active");
 		}
 		
+		
+		$("input[type='tel']").val( $("input[type='tel']").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
 		
 		$("input[type='tel']").keyup(function(){
 			$(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
@@ -172,21 +173,34 @@
         }).open();
 		
 	}
-	function insertHotel() {
+	
+	function testInsert() {
+		$("input[name=hotelNo]").val("H00");
+		$("input[name=hotelName]").val("신라 호텔");
+		$("input[name=hotelTel]").val("01012341234");
+		$("input[name=addr1]").val("서울시");
+		$("input[name=addr2]").val("신촌");
+		$("input[name=addr3]").val("코리아 아카데미");
+		$("input[name=hotelSimpleManual]").val("stest");
+		$("input[name=hotelDetailManual]").val("dtest");
+	}
+	
+	function updateHotel() {
 		var hotelNo = $("input[name=hotelNo]").val();
 		var hotelName = $("input[name=hotelName]").val();
 		var hotelTel = ($("input[name=hotelTel]").val()).replaceAll("-", "");
-		var hotelAddress = $("input[name=addr1]").val() + ", " + $("input[name=addr2]").val() + ", " + $("input[name=addr3]").val();;
+		var hotelAddress = $("input[name=addr1]").val() + "/" + $("input[name=addr2]").val() + "/" + $("input[name=addr3]").val();;
 		var hotelImage = $("input[name=hotelImage]").val();
-		var hotelManual = $("input[name=hotelManual]").val();
+		var hotelSimpleManual = $("input[name=hotelSimpleManual]").val();
+		var hotelDetailManual = $("input[name=hotelDetailManual]").val();
 		var hotelAllRoomEA = $("input[name=hotelAllRoomEA]").val();
 		
 		
 		console.log(hotelImage);
 		if(hotelNo.length == 0 || hotelName.length == 0 || hotelTel.length == 0
 			|| hotelAddress.length == 0 || hotelImage.length == 0 || hotelAddress.length == 0
-			|| hotelManual.length == 0 || hotelAllRoomEA.length == 0){
-			alert("모든 데이터를 입력 후 등록하세요");
+			|| hotelSimpleManual.length == 0 || hotelDetailManual.length == 0){
+			alert("모든 데이터를 입력해야 합니다");
 			return;
 		}
 		
@@ -195,20 +209,24 @@
 		data += "&hotelTel=" + hotelTel;
 		data += "&hotelAddress=" + hotelAddress;
 		data += "&hotelImage=" + hotelImage;
-		data += "&hotelManual=" + hotelManual;
-		data += "&hotelAllRoomEA=" + hotelAllRoomEA;
+		data += "&hotelSimpleManual=" + hotelSimpleManual;
+		data += "&hotelDetailManual=" + hotelDetailManual;
 		
 		console.log(data);
 		
 		$.ajax({
-			url:"insertHotel.do",
-			type:"get",
+			url:"updateHotel.do",
+			type:"post",
 			data : data,
-			contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
+			contentType: "application/x-www-form-urlencoded; charset=euc-kr",
 			success:function(r){
-				if(r==1)
-					alert("호델 데이터 등록 완료");
-				location.reload();
+				if(r==1){
+					alert("호델 데이터 수정 완료");
+					location.replace("selectAllHotel.do");
+				}
+				else
+					alert("호델 데이터 수정 실패");
+					
 			}
 		});
 			
